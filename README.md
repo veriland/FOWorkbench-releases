@@ -1,13 +1,18 @@
-# FinOps Workbench — Downloads
+<div align="center">
 
-Official installer downloads for **FinOps Workbench**, a management workbench for
-**Microsoft Power Platform** and **Dynamics 365 Finance & Operations**
-environments.
+# FinOps Workbench
 
-List and provision environments, request just-in-time SQL access, browse and
-query environment databases, download Lifecycle Services assets, follow
-lifecycle operations, and expose an MCP server for AI tooling — all from one
-desktop app.
+**One desktop app for managing Microsoft Power Platform and Dynamics 365 Finance & Operations environments.**
+
+List and provision environments · request just-in-time SQL access · query environment databases · download Lifecycle Services assets · follow lifecycle operations · expose an MCP server for AI tooling.
+
+### [⬇ Download the latest release](https://github.com/veriland/FOWorkbench-releases/releases/latest) · [📖 User Guide](docs/USER_GUIDE.md)
+
+![Environments view](docs/images/environments.png)
+
+</div>
+
+---
 
 ## Download
 
@@ -21,6 +26,22 @@ Get the latest installer from the **[Releases](https://github.com/veriland/FOWor
 | `FinOpsWorkbench-<version>-setup.exe` | Combined (auto-selects your architecture) |
 
 If you're unsure, download the **x64** installer.
+
+## What it does
+
+- **Environments** — every environment in one grid with live status, capacity,
+  versions and lifecycle state. Provision and copy environments.
+- **Just-in-time SQL access** — temporary SQL credentials with a ready-to-use
+  connection string.
+- **SQL workspace** — browse and query environment databases SSMS-style.
+- **Assets** — download VHDs, deployable/data packages, database backups and
+  developer tools, and track what you've downloaded.
+- **Lifecycle operations** — trigger database sync and follow progress, with a
+  full operation history.
+- **MCP server** — expose your session to Claude Desktop / Claude Code for AI
+  tooling (read-only by default).
+
+👉 See the **[illustrated User Guide](docs/USER_GUIDE.md)** for a full walkthrough.
 
 ## Installing
 
@@ -40,4 +61,5 @@ If you're unsure, download the **x64** installer.
 ## About
 
 Built and maintained by **Veriland Consulting** for the Dynamics 365 community —
-free to use and share. This repository hosts the public downloads only.
+free to use and share. This repository hosts the public downloads and user guide
+only.
