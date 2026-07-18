@@ -70,12 +70,26 @@ Double-click any row to see its full JSON (a curated **Details** tab and the
 
 Select an environment and click **Request SQL access**. Choose the access level
 (read or read/write) and a reason; the app opens the SQL firewall for your current
-IP and returns time-limited credentials, shown with a ready-to-use connection
-string you can copy. For LCS-managed environments it signs you in to Lifecycle
-Services once and requests access there.
+IP and requests time-limited credentials. For LCS-managed environments it signs
+you in to Lifecycle Services once and requests access there.
 
-The granted credentials are cached for the session, so the **SQL Workspace ▾ →
-F&O database** option becomes available without asking again.
+The result is the **SQL JIT credentials** viewer:
+
+![SQL JIT credentials](images/jit-credentials.png)
+
+- **Credentials tab** — the server, database, user name, password (masked, with a
+  **Show** toggle), role and expiry (with the time remaining), plus a ready-to-use
+  **connection string**.
+- **Copy connection string** puts the .NET/SSMS-ready connection string on the
+  clipboard; **Copy JSON** copies the raw response; **Raw JSON** shows the full
+  response on its own tab.
+- **Re-request** obtains a fresh grant — for example to upgrade a read grant to
+  read/write.
+
+The granted credentials are cached for the session (the environment's **SQL
+access** column shows a key), so the **SQL Workspace ▾ → F&O database** option
+opens straight away without asking again — and re-opening **Request SQL access**
+just shows the held credentials while they're still valid for your IP.
 
 ---
 
