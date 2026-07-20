@@ -37,7 +37,7 @@ and most actions are enabled or disabled depending on which kind you've selected
 |---|---|---|
 | **UDE** | cube | A **unified developer environment** — an F&O environment with a linked Dataverse org that supports the modern admin APIs (SQL JIT, DB Sync, dev-tools downloads). |
 | **LCS** | cloud | An **LCS-managed** F&O environment. Managed through Lifecycle Services rather than the Power Platform admin API; some actions redirect you to the LCS portal. |
-| **Dataverse** | grid | A plain **Dataverse** environment with no F&O database. |
+| **Dataverse** | database (cylinder) | A plain **Dataverse** environment with no F&O database. |
 
 Everything runs against **your own signed-in identity** — there is no service
 account, tenant id, client id or secret to configure. You must be an
@@ -241,10 +241,13 @@ An SSMS-style workspace for browsing and querying environment databases.
 
 ![SQL Workspace](images/sql-workspace.png)
 
-- **Object tree** (left) — expand an environment to browse schemas, tables and
-  views; type in the filter box to find objects quickly. Multiple environments —
-  and both the **F&O** and **Dataverse** endpoints of the same environment — can
-  be open side by side, merged under one environment node.
+- **Object browser** (left) — lists **all** your environments, each with its kind
+  icon. Select one and connect it (see below); connected environments expand to
+  their database → schemas → **Tables** / **Views** → columns. Very large F&O
+  schemas group objects into alphabetical folders so nothing has to load tens of
+  thousands of names at once. Type in the filter box to find objects quickly.
+  Both the **F&O** and **Dataverse** endpoints of the same environment can be
+  connected at once, merged under one environment node.
 - **Query tabs** (right) — each tab has a SQL editor and a results grid, and runs
   against the environment named on the tab. Press **F5** (or **Execute**) to run;
   **Ctrl+Space** opens auto-complete (T-SQL keywords plus the environment's
@@ -252,24 +255,31 @@ An SSMS-style workspace for browsing and querying environment databases.
 - **Double-click a table** to open a new tab pre-filled with
   `SELECT TOP (1000) * FROM [schema].[table]` and run it automatically.
 
-Open the workspace from the Environments page via **SQL Workspace ▾**:
+**Connecting** — select an environment in the object browser and use the ribbon
+(or right-click the environment → **Connect**):
 
-- **Finance & Operations database (JIT)** — uses a held SQL JIT grant (request
-  one first). Opens the F&O database with read or read-write access per your
-  grant.
-- **Dataverse tables (read-only)** — connects to the org's read-only TDS endpoint
-  using your signed-in identity, **no separate credentials needed**. This
-  endpoint is read-only; writes are rejected by the server.
+- **Connect F&O** — connects the finance & operations database using a SQL JIT
+  grant. For a **UDE** environment it requests the grant for you (Reader or
+  Read-write); for an **LCS** environment it reuses a held grant or runs the LCS
+  request via the Environments view. Reader or Read-write follows your grant.
+- **Connect Dataverse** — connects the org's read-only TDS endpoint using your
+  signed-in identity, **no separate credentials needed**. Writes are rejected by
+  the server.
 
-**First connect can take a minute.** When you open the F&O database on a
-just-granted JIT credential, Microsoft may still be provisioning the SQL login
-and firewall rule — the workspace shows a *"Waiting for Microsoft to provision
-JIT SQL access…"* overlay and retries automatically for up to four minutes.
+You can also open the workspace straight from the Environments page via
+**SQL Workspace ▾** (**Finance & Operations database** / **Dataverse tables**),
+which switches here and connects the selected environment in one step.
 
-Ribbon actions: **Disconnect**, **Refresh tree** (reload tables/views),
-**Copy conn string**, **New query**, **Execute (F5)**, **Clear results**, and
-**Environments** (back to the home view). There is no client-imposed row limit —
-the only limit is whatever `TOP` your SQL contains.
+**First connect can take a minute.** When you connect F&O on a just-granted JIT
+credential, Microsoft may still be provisioning the SQL login and firewall rule —
+the workspace shows a *"Waiting for Microsoft to provision JIT SQL access…"*
+overlay and retries automatically for up to four minutes.
+
+Ribbon actions: **Connect F&O** / **Connect Dataverse** / **Refresh environments**
+(re-fetch the environment list), **Disconnect**, **Refresh tree** (reload
+tables/views), **Copy conn string**, **New query**, **Execute (F5)**,
+**Clear results**, and **Environments** (back to the home view). There is no
+client-imposed row limit — the only limit is whatever `TOP` your SQL contains.
 
 ---
 
@@ -356,6 +366,11 @@ Open **Settings** from the ribbon (View group).
   Power Platform environments.
 - **LCS region** — pick the regional LCS REST API endpoint used for asset
   downloads (leave on **Global** unless your LCS tenant is in a specific geo).
+- **SQL object browser** — **Group large table/view lists into alphabetical
+  folders** (and the object-count threshold at which grouping kicks in). This
+  keeps the SQL workspace tree responsive on huge schemas — an F&O database has
+  ~25,000 tables. Turn it off to always list every object directly (slower to
+  expand on large databases).
 
 Settings are saved to `%LOCALAPPDATA%\FinOpsWorkbench\settings.json`. After
 changing LCS options, click **Refresh** to pick up the changes.
