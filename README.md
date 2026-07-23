@@ -16,16 +16,20 @@ List and provision environments · request just-in-time SQL access · query envi
 
 ## Download
 
-Get the latest installer from the **[Releases](https://github.com/veriland/FOWorkbench-releases/releases/latest)** page.
+Get the latest build from the **[Releases](https://github.com/veriland/FOWorkbench-releases/releases/latest)** page.
 
-| Installer | For |
+| Download | For |
 |---|---|
 | `FinOpsWorkbench-<version>-x64-setup.exe` | 64-bit Windows (most PCs) |
 | `FinOpsWorkbench-<version>-arm64-setup.exe` | Windows on ARM |
 | `FinOpsWorkbench-<version>-ia32-setup.exe` | 32-bit Windows |
-| `FinOpsWorkbench-<version>-setup.exe` | Combined (auto-selects your architecture) |
+| `FinOpsWorkbench-<version>-setup.exe` | Combined Windows (auto-selects your architecture) |
+| `FinOpsWorkbench-<version>-arm64.dmg` | macOS on Apple Silicon (M1/M2/M3…) |
+| `FinOpsWorkbench-<version>-x64.dmg` | macOS on Intel |
 
-If you're unsure, download the **x64** installer.
+On Windows, if you're unsure, download the **x64** installer. On a Mac, pick the
+**Apple Silicon** `.dmg` unless you're on an older Intel Mac. (`.zip` builds of the
+macOS app are also published, for auto-update tooling — most people want the `.dmg`.)
 
 ## What it does
 
@@ -45,16 +49,23 @@ If you're unsure, download the **x64** installer.
 
 ## Installing
 
-1. Download the installer for your architecture.
-2. Run it and follow the prompts (installs per-user; no administrator rights
-   required).
+**Windows**
 
-> The installers are not code-signed, so Windows SmartScreen may show a warning
-> on first launch. Choose **More info → Run anyway** to proceed.
+1. Download the `…-setup.exe` for your architecture and run it (installs per-user;
+   no administrator rights required).
+
+> The Windows installer is not code-signed, so SmartScreen may show a warning on
+> first launch. Choose **More info → Run anyway** to proceed.
+
+**macOS**
+
+1. Open the `.dmg` and drag **FinOps Workbench** into your **Applications** folder.
+2. Launch it from Applications. The build is signed with a Developer ID and
+   notarized by Apple, so it opens normally.
 
 ## Requirements
 
-- Windows 10/11 (x64, ARM64, or 32-bit)
+- Windows 10/11 (x64, ARM64, or 32-bit), or macOS 11 Big Sur+ (Apple Silicon or Intel)
 - A Microsoft Entra ID account with access to the Power Platform / D365 F&O
   environments you want to manage
 

@@ -1,7 +1,7 @@
 # FinOps Workbench — User Guide
 
-FinOps Workbench is a Windows desktop app for managing Microsoft **Power
-Platform** and **Dynamics 365 Finance & Operations (F&O)** environments from one
+FinOps Workbench is a **Windows and macOS** desktop app for managing Microsoft
+**Power Platform** and **Dynamics 365 Finance & Operations (F&O)** environments from one
 place: list and provision environments, request just-in-time SQL access, query
 environment databases, download Lifecycle Services (LCS) assets, follow
 lifecycle operations, and expose an MCP server for AI tooling.
@@ -47,7 +47,8 @@ administrator on the environments you want to manage.
 
 ## System requirements
 
-- **Windows 10 or Windows 11** (x64, ARM64, or 32-bit / ia32).
+- **Windows 10 or Windows 11** (x64, ARM64, or 32-bit / ia32), **or macOS 11 Big
+  Sur or later** (Apple Silicon or Intel).
 - A **Microsoft Entra ID** (work/school) account with administrator rights on the
   Power Platform / F&O environments you intend to manage.
 - **Internet access** to Microsoft endpoints (`login.microsoftonline.com`,
@@ -56,34 +57,49 @@ administrator on the environments you want to manage.
 - No SQL client or ODBC driver needs to be installed — the SQL workspace and the
   MCP SQL tools use a built-in TDS client.
 
-The installer is **not code-signed**, so Windows SmartScreen may warn on first
-launch (see [Installing the app](#installing-the-app)).
+The **Windows** installer is **not code-signed**, so Windows SmartScreen may warn
+on first launch. The **macOS** build is **signed with a Developer ID and notarized
+by Apple**, so it opens without a Gatekeeper warning (see
+[Installing the app](#installing-the-app)).
 
 ---
 
-## Installing the app
+Download the latest build from the
+[Releases page](https://github.com/veriland/FOWorkbench-releases/releases/latest)
+and pick the file for your machine:
 
-1. Download the latest installer from the
-   [Releases page](https://github.com/veriland/FOWorkbench-releases/releases/latest).
-   Pick the installer for your machine:
+| Download | For |
+|---|---|
+| `FinOpsWorkbench-<version>-x64-setup.exe` | 64-bit Windows (most PCs) |
+| `FinOpsWorkbench-<version>-arm64-setup.exe` | Windows on ARM |
+| `FinOpsWorkbench-<version>-ia32-setup.exe` | 32-bit Windows |
+| `FinOpsWorkbench-<version>-setup.exe` | Combined Windows (auto-selects your architecture) |
+| `FinOpsWorkbench-<version>-arm64.dmg` | macOS on Apple Silicon (M1/M2/M3…) |
+| `FinOpsWorkbench-<version>-x64.dmg` | macOS on Intel |
 
-   | Installer | For |
-   |---|---|
-   | `FinOpsWorkbench-<version>-x64-setup.exe` | 64-bit Windows (most PCs) |
-   | `FinOpsWorkbench-<version>-arm64-setup.exe` | Windows on ARM |
-   | `FinOpsWorkbench-<version>-ia32-setup.exe` | 32-bit Windows |
-   | `FinOpsWorkbench-<version>-setup.exe` | Combined (auto-selects your architecture) |
+(`.zip` builds of the macOS app are also published, for auto-update tooling — most
+people want the `.dmg`.)
 
-2. Run the installer. Because it isn't code-signed, SmartScreen may show
-   *"Windows protected your PC"*. Click **More info → Run anyway** to continue.
-   The installer lets you choose the install location and does not require
+### On Windows
+
+1. Run the downloaded `…-setup.exe`. Because it isn't code-signed, SmartScreen may
+   show *"Windows protected your PC"*. Click **More info → Run anyway** to continue.
+2. The installer lets you choose the install location and does not require
    administrator rights (it installs per-user by default).
-
 3. Launch **FinOps Workbench** from the Start menu.
 
-**Updates** — new versions are published to the same Releases page. Download and
-run the newer installer over your existing install; your settings and cached
-session are preserved.
+### On macOS
+
+1. Open the downloaded `.dmg` and drag **FinOps Workbench** into your
+   **Applications** folder.
+2. Launch it from Applications (or Launchpad). The build is signed with a
+   Developer ID and notarized by Apple, so it opens normally. If macOS ever blocks
+   an unsigned build, right-click the app → **Open** → **Open** to confirm once.
+
+**Updates** — new versions are published to the same Releases page. On Windows,
+run the newer installer over your existing install; on macOS, replace the app in
+Applications with the new one. Your settings and cached session are preserved
+either way.
 
 ---
 
@@ -107,8 +123,9 @@ sign-in, silently where it can:
 If either can't be captured silently, the app just sets it up the first time you
 need it — you'll see a note in the [Activity log](#details-and-activity-log).
 
-Your session is remembered **securely** between launches (encrypted with
-Windows DPAPI), so you normally only sign in once. On startup the app restores
+Your session is remembered **securely** between launches (encrypted at rest with
+a key bound to your machine and user account), so you normally only sign in once.
+On startup the app restores
 your previous session; if it has expired you'll be prompted to sign in again.
 **Sign out** (same button when signed in) clears all tokens, the LCS session,
 browser cookies and cached SQL grants.
@@ -298,13 +315,13 @@ environment:
 
 Tick what you want and click **Download…** to save to a folder. Downloads run in
 the background with per-item progress; you can minimise the window (progress
-stays visible in the system tray) and start several batches at once. Multi-part
+stays visible in the system tray / menu bar) and start several batches at once. Multi-part
 VHDs download all parts into the chosen folder.
 
 The **Assets** page is your download library — it shows what you've already
 downloaded, whether each file is still on disk, and quick actions to **Open
 file**, **Open folder**, **Download more…** or **Delete** (sends the file to the
-Recycle Bin and removes it from the list).
+Recycle Bin / Trash and removes it from the list).
 
 ![Assets library](images/assets.png)
 
@@ -358,9 +375,9 @@ Open **Settings** from the ribbon (View group).
 
 ![Settings](images/settings.png)
 
-- **Theme** — **Follow Windows app mode** (default), or pin **Light** / **Dark**.
-  The whole app re-themes instantly, and (on Follow Windows) tracks your OS
-  light/dark switch live.
+- **Theme** — **Follow OS app mode** (default), or pin **Light** / **Dark**.
+  The whole app re-themes instantly, and (on Follow OS) tracks your Windows or
+  macOS light/dark switch live.
 - **Load LCS environments** — also crawl Lifecycle Services for F&O environments
   that aren't in the Power Platform admin list. Turn off if you only work with
   Power Platform environments.
@@ -372,10 +389,11 @@ Open **Settings** from the ribbon (View group).
   ~25,000 tables. Turn it off to always list every object directly (slower to
   expand on large databases).
 
-Settings are saved to `%LOCALAPPDATA%\FinOpsWorkbench\settings.json`. After
+Settings are saved to `%LOCALAPPDATA%\FinOpsWorkbench\settings.json` on Windows,
+or `~/Library/Application Support/FinOpsWorkbench/settings.json` on macOS. After
 changing LCS options, click **Refresh** to pick up the changes.
 
-The app follows your Windows light/dark preference automatically:
+The app follows your Windows or macOS light/dark preference automatically:
 
 ![Dark mode](images/environments-dark.png)
 
@@ -393,19 +411,24 @@ The app follows your Windows light/dark preference automatically:
 | **Double-click** | SQL object tree table/view | Open & run `SELECT TOP (1000)` |
 | **Ctrl / Shift + click** | Environments grid | Multi-select rows |
 
+On **macOS**, use **⌘ (Command)** in place of Ctrl for multi-select (⌘/Shift +
+click).
+
 ---
 
 ## Where your data lives
 
-FinOps Workbench stores everything under your Windows profile — nothing is sent
-anywhere except the Microsoft services you're administering.
+FinOps Workbench stores everything under your own user profile — nothing is sent
+anywhere except the Microsoft services you're administering. The per-user data
+folder is `%LOCALAPPDATA%\FinOpsWorkbench\` on **Windows** and
+`~/Library/Application Support/FinOpsWorkbench/` on **macOS**.
 
 | Data | Location |
 |---|---|
-| Settings (theme, LCS options) | `%LOCALAPPDATA%\FinOpsWorkbench\settings.json` |
-| Download history (Assets page) | `%LOCALAPPDATA%\FinOpsWorkbench\downloads.json` |
-| Tokens, LCS session, cached SQL grants | Encrypted store (Windows DPAPI) |
-| Sign-in browser profiles | `%LOCALAPPDATA%\FinOpsWorkbench\WebView2\` |
+| Settings (theme, LCS options) | `settings.json` in the data folder |
+| Download history (Assets page) | `downloads.json` in the data folder |
+| Tokens, LCS session, cached SQL grants | Encrypted `.edat` files in the data folder (AES-256-GCM, with a key bound to your machine and user account) |
+| Sign-in browser sessions (cookies) | Managed by the app in its own profile inside the data folder |
 
 **Secrets are never logged.** Tokens, passwords, cookies, connection strings and
 download SAS URLs are kept out of the Activity log and diagnostics.
@@ -414,15 +437,20 @@ download SAS URLs are kept out of the Activity log and diagnostics.
 
 ## Troubleshooting
 
-**SmartScreen warns when I run the installer.**
-The installer isn't code-signed. Click **More info → Run anyway**. This is
+**SmartScreen warns when I run the installer (Windows).**
+The Windows installer isn't code-signed. Click **More info → Run anyway**. This is
 expected and safe for a release from the official Releases page.
 
+**macOS won't open the app / says it's from an unidentified developer.**
+The macOS build is signed with a Developer ID and notarized by Apple, so it should
+open normally. If you built it yourself (unsigned), or macOS still blocks it,
+right-click the app in Applications → **Open** → **Open** to confirm once.
+
 **Sign-in window is blank or won't load.**
-The app uses an embedded Microsoft Edge WebView2 browser. If it can't start
-(common on some virtual machines), the app falls back to opening your default
-browser to finish sign-in — watch the Activity log for that note. Ensure the
-machine can reach `login.microsoftonline.com`.
+The app uses an embedded Chromium browser window. If it can't start (seen on some
+virtual machines), the app falls back to opening your default browser to finish
+sign-in — watch the Activity log for that note. Ensure the machine can reach
+`login.microsoftonline.com`.
 
 **"Request SQL access" is disabled.**
 It's only available for **UDE** and **LCS** environments, and (for UDE) the
